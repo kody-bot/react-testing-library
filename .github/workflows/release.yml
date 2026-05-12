@@ -32,15 +32,15 @@ jobs:
         react: ['18.x', latest, canary, experimental]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Download deps
+      - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
@@ -51,19 +51,19 @@ jobs:
 
       # as requested by the React team :)
       # https://reactjs.org/blog/2019/10/22/react-release-channels.html#using-the-next-channel-for-integration-testing
-      - name: Setup react
+      - name: ⚛️ Setup react
         run: npm install react@${{ matrix.react }} react-dom@${{ matrix.react }}
 
-      - name: Setup react types
+      - name: ⚛️ Setup react types
         if: ${{ matrix.react != 'canary' && matrix.react != 'experimental' }}
         run:
           npm install @types/react@${{ matrix.react }} @types/react-dom@${{
           matrix.react }}
 
-      - name: Run validate script
+      - name: ▶️ Run validate script
         run: npm run validate
 
-      - name: Upload coverage report
+      - name: ⬆️ Upload coverage report
         uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true
@@ -77,21 +77,21 @@ jobs:
       contents: read
     if: ${{ github.repository == 'testing-library/react-testing-library' && github.event_name == 'push' }}
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      - name: Install dependencies
+      - name: 📥 Download deps
         run: npm install --ignore-scripts
 
-      - name: Run build script
+      - name: 🏗 Run build script
         run: npm run build
 
-      - name: Upload package artifact
+      - name: 📦 Upload package artifact
         uses: actions/upload-artifact@v4
         with:
           name: npm-package-dist
@@ -109,22 +109,22 @@ jobs:
       pull-requests: write
     if: ${{ github.repository == 'testing-library/react-testing-library' && github.event_name == 'push' }}
     steps:
-      - name: Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org/'
 
-      - name: Download package artifact
+      - name: 📦 Download package artifact
         uses: actions/download-artifact@v4
         with:
           name: npm-package-dist
           path: dist
 
-      - name: Release
+      - name: 🚀 Release
         uses: cycjimmy/semantic-release-action@v5
         with:
           semantic_version: 25

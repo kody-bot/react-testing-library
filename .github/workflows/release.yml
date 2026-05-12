@@ -75,7 +75,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: ${{ github.repository == 'testing-library/react-testing-library' && github.event_name == 'push' }}
+    if:
+      ${{ github.repository == 'testing-library/react-testing-library' &&
+      github.event_name == 'push' }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
@@ -107,7 +109,9 @@ jobs:
       id-token: write
       issues: write
       pull-requests: write
-    if: ${{ github.repository == 'testing-library/react-testing-library' && github.event_name == 'push' }}
+    if:
+      ${{ github.repository == 'testing-library/react-testing-library' &&
+      github.event_name == 'push' }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
